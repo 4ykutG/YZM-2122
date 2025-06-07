@@ -1,6 +1,8 @@
 from . import db
 from flask_login import UserMixin
 from datetime import datetime
+from itsdangerous import URLSafeTimedSerializer as Serializer
+from flask import current_app
 
 
 class User(UserMixin, db.Model):
@@ -12,6 +14,19 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(512), nullable=False)
     QuizWordCount = db.Column(db.Integer, default=10)
     last_exam_date = db.Column(db.DateTime, default=None)
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        return s.dumps({'user_id': self.id})
+
+    @staticmethod
+    def verify_reset_token(token, expires_sec=1800):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            user_id = s.loads(token, max_age=expires_sec)['user_id']
+        except Exception:
+            return None
+        return User.query.get(user_id)
 
 class Word(db.Model):
     __tablename__ = 'words'

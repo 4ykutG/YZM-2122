@@ -5,6 +5,8 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms import IntegerField
 from wtforms.validators import NumberRange
 
+
+
 class RegisterForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=3)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -31,3 +33,15 @@ class WordForm(FlaskForm):
 class SettingsForm(FlaskForm):
     quiz_count = IntegerField("Günlük Soru Sayısı", validators=[DataRequired(), NumberRange(min=1, max=100)])
     submit = SubmitField("Kaydet")
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField('E-posta', validators=[DataRequired(), Email()])
+    submit = SubmitField('Şifre Sıfırlama Bağlantısı Gönder')
+
+
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Yeni Şifre', validators=[DataRequired(), Length(min=6)])
+    confirm_password = PasswordField('Şifreyi Onayla', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Şifreyi Güncelle')

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Yeni Şifre Belirle{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Yeni Şifre Belirle</h3>
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.confirm_password.label(class="form-label") }}
+        {{ form.confirm_password(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.submit(class="btn btn-primary w-100") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

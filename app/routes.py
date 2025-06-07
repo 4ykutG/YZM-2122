@@ -2,19 +2,26 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User
-from .forms import RegisterForm, LoginForm, WordForm
+from .forms import RegisterForm, LoginForm, WordForm, RequestResetForm
 from . import db, login_manager
 import os
 from werkzeug.utils import secure_filename
 from flask import current_app
-from datetime import datetime
 from sqlalchemy import and_
 from .models import Word, UserWordProgress
-from .models import Word, UserWordProgress
-from datetime import datetime
 from .forms import SettingsForm
+from flask import session
+import random
+from flask import request
+from datetime import datetime, timedelta
+from .models import Answer
+from sqlalchemy import func, case
+from reportlab.pdfgen import canvas
+from flask import make_response
+from .forms import ResetPasswordForm
 
 main = Blueprint('main', __name__)
+
 
 @main.route('/')
 def index():
@@ -29,7 +36,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-
+# Kayıt olma
 @main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
@@ -53,7 +60,7 @@ def register():
         return redirect(url_for('main.login'))
     return render_template('register.html', form=form)
 
-
+#Giriş yapma
 @main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -66,19 +73,21 @@ def login():
             flash('Geçersiz giriş.', 'danger')
     return render_template('login.html', form=form)
 
+#Çıkış yapma
 @main.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('main.login'))
 
+#Anasayfa
 @main.route('/dashboard')
 @login_required
 def dashboard():
     return render_template('dashboard.html')
 
 
-
+#Kelime Ekleme
 @main.route('/add-word', methods=['GET', 'POST'])
 @login_required
 def add_word():
@@ -110,9 +119,8 @@ def add_word():
 
 
 
-from flask import session
-import random
 
+#Sınav
 @main.route('/exam')
 @login_required
 def exam():
@@ -182,8 +190,7 @@ def exam():
 
 
 
-from flask import request
-from datetime import datetime, timedelta
+
 
 def get_next_due_date(streak):
     if streak == 1:
@@ -200,7 +207,7 @@ def get_next_due_date(streak):
         return None
 
 
-from .models import Answer
+
 
 @main.route('/submit-answer/<int:word_id>', methods=['POST'])
 @login_required
@@ -266,9 +273,7 @@ def submit_answer(word_id):
 
 
 
-from sqlalchemy import func, case
 
-from sqlalchemy import func, case
 
 @main.route('/report')
 @login_required
@@ -300,8 +305,7 @@ def report():
 
 
 
-from reportlab.pdfgen import canvas
-from flask import make_response
+
 
 @main.route('/report/download')
 @login_required
@@ -435,3 +439,39 @@ def wordle_game():
 @login_required
 def wordle_success():
     return render_template("wordle_success.html")
+
+
+
+@main.route('/reset_password', methods=['GET', 'POST'])
+def reset_request():
+    form = RequestResetForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            token = user.get_reset_token()
+            reset_link = url_for('main.reset_token', token=token, _external=True)
+            print(f"🔗 Şifre sıfırlama bağlantısı: {reset_link}")
+            flash('Şifre sıfırlama bağlantısı oluşturuldu. (E-posta simülasyonu)', 'info')
+        else:
+            flash('Bu e-posta ile kayıtlı kullanıcı bulunamadı.', 'danger')
+        return redirect(url_for('main.login'))
+    return render_template('reset_request.html', form=form)
+
+
+
+@main.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_token(token):
+    user = User.verify_reset_token(token)
+    if user is None:
+        flash('Geçersiz veya süresi dolmuş bağlantı.', 'warning')
+        return redirect(url_for('main.request_reset'))
+
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        hashed_pw = generate_password_hash(form.password.data)
+        user.password = hashed_pw
+        db.session.commit()
+        flash('Şifreniz başarıyla güncellendi. Şimdi giriş yapabilirsiniz.', 'success')
+        return redirect(url_for('main.login'))
+    return render_template('reset_token.html', form=form)
+
