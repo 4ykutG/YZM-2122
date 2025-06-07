@@ -274,7 +274,7 @@ def submit_answer(word_id):
 
 
 
-
+# Rapor sistemi
 @main.route('/report')
 @login_required
 def report():
