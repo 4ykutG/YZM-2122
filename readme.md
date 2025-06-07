@@ -1,6 +1,6 @@
 #  Kelime Ezberleme Uygulaması
 
-Bu proje, kullanıcıların İngilizce kelimeleri öğrenmesini kolaylaştırmak için geliştirilmiş bir **web tabanlı ezber uygulamasıdır**. Kullanıcılar kelime ekleyebilir, test çözebilir, performans analizlerini görebilir ve Wordle tarzı bir oyunla kelimeleri pekiştirebilir.
+Bu proje, Manisa Celal Bayar Üniversitesi YZM-2122 dersi kapsamında dönem projesi olarak geliştirilmiştir. Ticari amaçla kullanılmaması gerekmektedir. Proje, Aykut Gökbulut, İbrahim Delibay, Nurettin Oğuz ve Oğuzhan Deveci tarafından hazırlanmıştır.Kullanıcıların İngilizce kelimeleri öğrenmesini kolaylaştırmak için geliştirilmiş bir **web tabanlı ezber uygulamasıdır**. Kullanıcılar kelime ekleyebilir, test çözebilir, performans analizlerini görebilir ve Wordle oyunuyla kelimeleri pekiştirebilir.
 
 ---
 
