@@ -1,0 +1,10 @@
+<!-- wordle_success.html -->
+{% extends "base.html" %}
+{% block title %}Tebrikler{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+  <h2>🎉 Doğru Bildiniz!</h2>
+  <a href="{{ url_for('main.dashboard') }}" class="btn btn-primary mt-3">Ana Sayfaya Dön</a>
+</div>
+{% endblock %}

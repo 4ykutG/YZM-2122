@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Kelime Ekle{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 600px;">
+  <div class="card-body">
+    <h3 class="card-title mb-3">Yeni Kelime Ekle</h3>
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.hidden_tag() }}
+
+      <div class="mb-3">
+        {{ form.word.label(class="form-label") }}
+        {{ form.word(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.meaning.label(class="form-label") }}
+        {{ form.meaning(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.image.label(class="form-label") }}
+        {{ form.image(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.example1.label(class="form-label") }}
+        {{ form.example1(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.example2.label(class="form-label") }}
+        {{ form.example2(class="form-control") }}
+      </div>
+
+      <div class="mb-3">
+        {{ form.category.label(class="form-label") }}
+        {{ form.category(class="form-control") }}
+      </div>
+
+
+      <div class="mb-3">
+        {{ form.submit(class="btn btn-success w-100") }}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

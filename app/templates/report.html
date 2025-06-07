@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Performans Raporu{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2 class="mb-4 text-center">📊 Cevaplanan Sorulara Göre Performans</h2>
+  <table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Kategori</th>
+        <th>Cevaplanan</th>
+        <th>Doğru</th>
+        <th>Başarı (%)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in report_data %}
+      <tr>
+        <td>{{ item.category }}</td>
+        <td>{{ item.answered }}</td>
+        <td>{{ item.correct }}</td>
+        <td>{{ item.percent }}%</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

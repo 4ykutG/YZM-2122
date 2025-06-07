@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Wordle Oyunu{% endblock %}
+
+{% block content %}
+<h3 class="text-center">Wordle Oyunu</h3>
+
+<div class="mb-4">
+  {% for attempt in attempts %}
+    <div class="d-flex justify-content-center mb-2">
+      {% for color, letter in attempt %}
+        <div class="p-2 text-white text-center mx-1" style="width: 40px; height: 40px; background-color: {{ color }}; line-height: 30px; font-size: 20px;">
+          {{ letter.upper() }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+
+<form method="POST" class="text-center">
+  <input type="text" name="guess" maxlength="{{ target_len }}" minlength="{{ target_len }}" class="form-control d-inline-block w-auto" placeholder="{{ target_len }} harfli kelime" required>
+  <button type="submit" class="btn btn-success mt-2">Tahmin Et</button>
+</form>
+{% endblock %}

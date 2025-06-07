@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Sınav{% endblock %}
+
+{% block content %}
+<h3 class="mb-4">Bugünkü Kelimeler</h3>
+
+{% for word in exam_words %}
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ word.word }}</h5>
+      {% if word.image_filename %}
+        <img src="{{ url_for('static', filename='uploads/' + word.image_filename) }}" style="max-width: 150px;">
+      {% endif %}
+      <p>Örnek 1: {{ word.example1 }}</p>
+      <p>Örnek 2: {{ word.example2 }}</p>
+      <form method="POST" action="{{ url_for('main.submit_answer', word_id=word.id) }}">
+        <input type="text" name="answer" class="form-control" placeholder="Türkçesi nedir?">
+        <button type="submit" class="btn btn-success mt-2">Cevabı Gönder</button>
+      </form>
+    </div>
+  </div>
+{% endfor %}
+
+{% if exam_words|length == 0 %}
+  <div class="alert alert-info">Bugün için çözülmesi gereken kelime bulunmamaktadır.</div>
+{% endif %}
+
+{% endblock %}

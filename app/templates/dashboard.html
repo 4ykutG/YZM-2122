@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Panel{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <h2 class="mb-4">Hoşgeldin, {{ current_user.username }}!</h2>
+
+  <div class="d-grid gap-3 col-6 mx-auto">
+    <a href="{{ url_for('main.add_word') }}" class="btn btn-primary btn-lg">📘 Kelime Ekle</a>
+    <a href="{{ url_for('main.exam') }}" class="btn btn-success btn-lg">Sınava Başla</a>
+    <a href="{{ url_for('main.report') }}" class="btn btn-secondary btn-lg">📊 Raporlar</a>
+    <a href="{{ url_for('main.wordle_start') }}" class="btn btn-pink btn-block btn-lg">Wordle Oyunu</a>
+    <a href="{{ url_for('main.settings') }}" class="btn btn-dark btn-lg ">Ayarlar</a>
+    <a href="{{ url_for('main.logout') }}" class="btn btn-danger btn-lg">🚪 Çıkış Yap</a>
+  </div>
+</div>
+{% endblock %}
