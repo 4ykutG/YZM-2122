@@ -1,0 +1,50 @@
+# Python bytecode ve cache klasörleri
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# IDE ve proje ayarları
+.idea/
+.vscode/
+*.swp
+
+# Sanal ortamlar
+venv/
+env/
+.venv/
+ENV/
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+
+# Log dosyaları
+*.log
+
+# Test/coverage dosyaları
+htmlcov/
+.tox/
+.coverage
+.cache
+.noseids
+*.cover
+*.pyc
+
+# .env dosyası (gizli bilgiler için)
+.env
+
+# Jupyter notebook checkpointleri
+.ipynb_checkpoints
+
+# Geliştirici tarafından eklenen diğer dosyalar
+*.bak
+
+# Database dosyaları (varsa sqlite gibi)
+*.sqlite3
+*.db
+
+# Paket kurulum dosyaları
+*.egg-info/
+dist/
+build/
